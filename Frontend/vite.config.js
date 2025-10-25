@@ -1,15 +1,11 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
+// axiosInstance.js
+import axios from 'axios';
+import qs from 'qs';
 
-export default defineConfig({
-  plugins: [react()],
-  server: {
-    proxy: {
-      '/api': {
-        target: 'https://homelyhub-lhx9.onrender.com',
-        changeOrigin: true,
-        secure: false,
-      },
-    },
-  },
+const API_BASE = import.meta.env.DEV ? '/api' : import.meta.env.VITE_API_URL;
+
+export const axiosInstance = axios.create({
+  baseURL: API_BASE,
+  withCredentials: true,
+  paramsSerializer: (params) => qs.stringify(params, { arrayFormat: 'repeat' }),
 });
