@@ -15,7 +15,7 @@ const app = express();
 // Allow both dev and production origins
 const allowedOrigins = [
   'http://localhost:5173', // Vite dev server
-  'https://ynvnk-homelyhub.vercel.app', // Vercel production frontend
+  'https://ynvnk-homelyhub.vercel.app', // Vercel frontend
 ];
 
 app.use(
@@ -44,6 +44,16 @@ connectDB();
 app.use('/api/v1/rent/user', userRouter);
 app.use('/api/v1/rent/listing', propertyRouter);
 app.use('/api/v1/rent/user/booking', bookingRouter);
+
+// ===== Add a Health Check Route =====
+app.get('/', (req, res) => {
+  res.status(200).send('Server is alive!');
+});
+
+// Optional: additional health route
+app.get('/api/health', (req, res) => {
+  res.status(200).json({ status: 'ok', timestamp: new Date() });
+});
 
 // Start server
 const port = process.env.PORT || 8081;
