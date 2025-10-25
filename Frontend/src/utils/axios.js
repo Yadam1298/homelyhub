@@ -1,10 +1,10 @@
-import axios from "axios";
-import qs from "qs";
+import axios from 'axios';
+import qs from 'qs';
 
-// Serialization means converting a JavaScript object or array into a URL query string that can be sent in an HTTP request.
+const API_BASE = import.meta.env.VITE_API_URL || '/api';
 
 export const axiosInstance = axios.create({
-  baseURL: "/api",
+  baseURL: API_BASE,
   withCredentials: true,
-  paramsSerializer: (params) => qs.stringify(params, { arrayFormat: "repeat" }),
+  paramsSerializer: (params) => qs.stringify(params, { arrayFormat: 'repeat' }),
 });
