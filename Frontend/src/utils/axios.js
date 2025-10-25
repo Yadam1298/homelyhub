@@ -1,14 +1,15 @@
-// axiosInstance.js
 import axios from 'axios';
-import qs from 'qs';
 
-// Choose API base depending on environment
-const API_BASE = import.meta.env.DEV
-  ? '/api' // use dev proxy in development
-  : import.meta.env.VITE_API_URL; // production URL from Vercel env
-
-export const axiosInstance = axios.create({
-  baseURL: API_BASE,
-  withCredentials: true,
-  paramsSerializer: (params) => qs.stringify(params, { arrayFormat: 'repeat' }),
-});
+export default async function handler(req, res) {
+  try {
+    const response = await axios.get(
+      'https://homelyhub-lhx9.onrender.com/api/v1/rent/listing',
+      {
+        params: req.query,
+      }
+    );
+    res.status(200).json(response.data);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch data' });
+  }
+}
