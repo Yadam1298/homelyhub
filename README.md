@@ -30,7 +30,7 @@ Users can:
 
 - **Frontend (Vercel):** [https://your-frontend-url.vercel.app](https://ynvnk-homelyhub.vercel.app/)  
 - **Backend (Render):** [https://your-backend-url.onrender.com](https://homelyhub-lhx9.onrender.com)
-- - **Portfolio:** [https://yadam.vercel.app/](https://yadam.vercel.app/)
+- **Portfolio:** [https://yadam.vercel.app/](https://yadam.vercel.app/)
 
 ---
 
@@ -79,11 +79,11 @@ npm run dev
 
 ### 📸 Features
 
-✅ User authentication (Register/Login)
-✅ Property listing & management
-✅ Image upload and property details view
-✅ Filter & search options
-✅ Responsive and modern UI
+- User authentication (Register/Login)
+- Property listing & management
+- Image upload and property details view
+- Filter & search options
+- Responsive and modern UI
 
 ### 👩‍💻 Author
 
