@@ -19,7 +19,6 @@ const Login = () => {
         e.preventDefault();
         dispatch(getLogin({email,password}))
     }
-
       useEffect(()=>{
         if(errors && errors.length >0){
             toast.error(errors);
