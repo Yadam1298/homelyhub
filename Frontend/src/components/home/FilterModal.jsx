@@ -1,13 +1,17 @@
 // FilterModal.js
-import React, { useState } from "react";
-import "../../css/FilterModal.css";
-import "react-input-range/lib/css/index.css";
-import InputRange from "react-input-range";
+import React, { useState } from 'react';
+import '../../css/FilterModal.css';
+import 'react-input-range/lib/css/index.css';
+import InputRange from 'react-input-range';
+import { useDispatch } from 'react-redux';
+import { propertyAction } from '../../store/Property/property-slice';
+import { getAllProperties } from '../../store/Property/property-action';
 
 const FilterModal = ({ onClose }) => {
+  const dispatch = useDispatch();
   const [priceRange, setPriceRange] = useState({ min: 600, max: 30000 });
-  const [propertyType, setPropertyType] = useState("");
-  const [roomType, setRoomType] = useState("");
+  const [propertyType, setPropertyType] = useState('');
+  const [roomType, setRoomType] = useState('');
   const [amenities, setAmenities] = useState([]);
 
   const handlePriceRangeChange = (value) => {
@@ -25,45 +29,51 @@ const FilterModal = ({ onClose }) => {
   };
 
   const handleFilterChange = () => {
-    console.log("Applied Filters:", {
-      priceRange,
-      propertyType,
-      roomType,
-      amenities,
-    });
+    const params = {};
+
+    if (priceRange?.min != null) params.minPrice = priceRange.min;
+    if (priceRange?.max != null) params.maxPrice = priceRange.max;
+    if (propertyType) params.propertyType = propertyType;
+    if (roomType) params.roomType = roomType;
+    if (amenities && amenities.length > 0) params.amenities = amenities;
+    params.page = 1;
+
+    dispatch(propertyAction.updateSearchParams(params));
+    dispatch(getAllProperties());
+    onClose?.();
   };
 
   const propertyTypeOptions = [
-    { value: "house", label: "House", icon: "home" },
-    { value: "flat", label: "Flat", icon: "apartment" },
-    { value: "guest-house", label: "Guest House", icon: "hotel" },
-    { value: "hotel", label: "Hotel", icon: "meeting_room" },
+    { value: 'house', label: 'House', icon: 'home' },
+    { value: 'flat', label: 'Flat', icon: 'apartment' },
+    { value: 'guest-house', label: 'Guest House', icon: 'hotel' },
+    { value: 'hotel', label: 'Hotel', icon: 'meeting_room' },
   ];
 
   const roomTypeOptions = [
-    { value: "Entire Home", label: "Entire Home", icon: "hotel" },
-    { value: "Room", label: "Room", icon: "meeting_room" },
-    { value: "Anytype", label: "Any Type", icon: "apartment" },
+    { value: 'Entire Home', label: 'Entire Home', icon: 'hotel' },
+    { value: 'Room', label: 'Room', icon: 'meeting_room' },
+    { value: 'Anytype', label: 'Any Type', icon: 'apartment' },
   ];
 
   const amenitiesOptions = [
-    { value: "Wifi", label: "Wi-Fi", icon: "wifi" },
-    { value: "Kitchen", label: "Kitchen", icon: "kitchen" },
-    { value: "Ac", label: "AC", icon: "ac_unit" },
+    { value: 'Wifi', label: 'Wi-Fi', icon: 'wifi' },
+    { value: 'Kitchen', label: 'Kitchen', icon: 'kitchen' },
+    { value: 'Ac', label: 'AC', icon: 'ac_unit' },
     {
-      value: "Washing Machine",
-      label: "Washing Machine",
-      icon: "local_laundry_service",
+      value: 'Washing Machine',
+      label: 'Washing Machine',
+      icon: 'local_laundry_service',
     },
-    { value: "Tv", label: "TV", icon: "tv" },
-    { value: "Pool", label: "Pool", icon: "pool" },
-    { value: "Free Parking", label: "Free Parking", icon: "local_parking" },
+    { value: 'Tv', label: 'TV', icon: 'tv' },
+    { value: 'Pool', label: 'Pool', icon: 'pool' },
+    { value: 'Free Parking', label: 'Free Parking', icon: 'local_parking' },
   ];
 
   const handleClearFilters = () => {
     setPriceRange({ min: 600, max: 30000 });
-    setPropertyType("");
-    setRoomType("");
+    setPropertyType('');
+    setRoomType('');
     setAmenities([]);
   };
 
@@ -77,18 +87,17 @@ const FilterModal = ({ onClose }) => {
 
   const handlePropertyTypeChange = (selectedType) => {
     setPropertyType((prevType) =>
-      prevType === selectedType ? "" : selectedType
+      prevType === selectedType ? '' : selectedType
     );
   };
 
   const handleRoomTypeChange = (selectedType) => {
-    setRoomType((prevType) => (prevType === selectedType ? "" : selectedType));
+    setRoomType((prevType) => (prevType === selectedType ? '' : selectedType));
   };
 
   return (
     <div className="modal-backdrop">
-      <div className="modal-content" 
-      style={{maxHeight:"80vh", overflow:"auto"}}>
+      <div className="modal-content">
         <h4>
           Filters <hr />
         </h4>
@@ -128,7 +137,7 @@ const FilterModal = ({ onClose }) => {
                 <div
                   key={option.value}
                   className={`selectable-box ${
-                    propertyType === option.value ? "selected" : ""
+                    propertyType === option.value ? 'selected' : ''
                   }`}
                   onClick={() => handlePropertyTypeChange(option.value)}
                 >
@@ -146,7 +155,7 @@ const FilterModal = ({ onClose }) => {
                 <div
                   key={option.value}
                   className={`selectable-box ${
-                    roomType === option.value ? "selected" : ""
+                    roomType === option.value ? 'selected' : ''
                   }`}
                   onClick={() => handleRoomTypeChange(option.value)}
                 >

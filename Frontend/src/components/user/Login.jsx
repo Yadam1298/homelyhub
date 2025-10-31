@@ -23,12 +23,12 @@ const Login = () => {
       useEffect(()=>{
         if(errors && errors.length >0){
             toast.error(errors);
-            dispatch(userActions.clearErrors)
+            dispatch(userActions.clearErrors())
         }else if (isAuthenticated){
             navigate("/");
             toast.success("User logged in successfully")
         }
-    },[isAuthenticated,errors,navigate])
+    },[isAuthenticated,errors,navigate,dispatch])
   return (
     <Fragment>
       <div className='row wrapper'>
